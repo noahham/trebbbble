@@ -78,6 +78,7 @@ def recognize_song() -> tuple:
         (str): Song artist.
     """
 
+    api_keys = load_api_keys("keys.txt")
     url = f"https://{api_keys["ACR_HOST"]}/v1/identify"
 
     timestamp = str(int(time.time()))
@@ -135,6 +136,14 @@ def get_song_urls(title: str, artist: str) -> tuple:
         )
 
 def write_output(title : str, artist : str) -> None:
+    """
+    Writes song data to out.txt in the working directory.
+
+    Args:
+        title (str): The title of the song.
+        artist (str): The artist of the song.
+    """
+
     with open("out.txt", "w") as f:
         if not title and not artist:
             f.write("f")
@@ -151,13 +160,13 @@ def write_output(title : str, artist : str) -> None:
             f.write(f"{urls[2]}\n")
             print("Done.")
 
-if __name__ == "__main__":
-    # API keys
-    api_keys = load_api_keys("keys.txt")
+def main(url):
+    # Generating WAV file
+    download_video(url)
 
-    # Finding the song
-    download_video("https://www.instagram.com/reel/DGmD9ABCxaE/")
-
-    # Creating output file
+    # Retrieving and writing song data
     t, a = recognize_song()
     write_output(t, a)
+
+if __name__ == "__main__":
+    main("https://www.instagram.com/p/DGTK_b2PuX_/")
