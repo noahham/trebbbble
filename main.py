@@ -6,7 +6,6 @@ import base64
 import requests
 import urllib.parse
 import yt_dlp
-import ffmpeg
 
 def load_api_keys(file_path : str) -> dict:
     """
@@ -22,15 +21,14 @@ def load_api_keys(file_path : str) -> dict:
     with open(file_path, "r") as f:
         keys = [line.strip() for line in f.readlines()]
 
-    if len(keys) != 4:
+    if len(keys) != 3:
         raise ValueError(
-            "Invalid key file format. Ensure 4 lines: ACRCloud Client Key, ACRCloud Secret Key, Spotify Client Key, Spotify Secret Key.")
+            "Invalid key file format. Ensure 3 lines: ACRCloud Host URL, ACRCloud Client Key, ACRCloud Secret Key.")
 
     return {
-        "ACR_ACCESS_KEY": keys[0],
-        "ACR_ACCESS_SECRET": keys[1],
-        "SPOTIFY_CLIENT_ID": keys[2],
-        "SPOTIFY_CLIENT_SECRET": keys[3]
+        "ACR_HOST" : keys[0],
+        "ACR_ACCESS_KEY": keys[1],
+        "ACR_ACCESS_SECRET": keys[2]
     }
 
 def download_video(url : str) -> None:
@@ -49,11 +47,16 @@ def download_video(url : str) -> None:
 
         # yt-dlp options
         ydl_opts = {
-            "outtmpl": "temp.mp4",  # Always save as temp.mp4
-            "format": "mp4",        # TODO: Can this just do wav?
-            "quiet": True,        # Supress logs
-            "noprogress": True,    # Hide progress bar
-            "overwrites": True    # This makes sure the file gets overwritten
+            "outtmpl": "temp.%(ext)s",  # Ensure correct extension
+            "format": "bestaudio/best",  # Get the best audio format available
+            "quiet": True,  # Suppress logs
+            "noprogress": True,  # Hide progress bar
+            "overwrites": True,  # Overwrite existing file
+            "postprocessors": [{
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "wav",  # Convert to WAV
+                "preferredquality": "0"  # Best quality
+            }]
         }
 
         print(f"Downloading video...")
@@ -66,22 +69,6 @@ def download_video(url : str) -> None:
     except Exception as e:
         print(f"An error occurred: {e}")
 
-def mp4_to_wav(input_file="temp.mp4", output_file="temp.wav") -> None:
-    """
-    Converts mp4 to wav file.
-
-    Args:
-        input_file (str): Path to the mp4 file.
-        output_file (str): Path to the wav file.
-    """
-
-    try:
-        ffmpeg.input(input_file).output(output_file).run()
-        print(f"Successfully converted to WAV.")
-        os.remove("temp.mp4")
-    except ffmpeg.Error as e:
-        print(f"An error occurred: {e.stderr.decode()}")
-
 def recognize_song() -> tuple:
     """
     Recognizes song from WAV file.
@@ -91,7 +78,7 @@ def recognize_song() -> tuple:
         (str): Song artist.
     """
 
-    url = f"https://{ACR_HOST}/v1/identify"
+    url = f"https://{api_keys["ACR_HOST"]}/v1/identify"
 
     timestamp = str(int(time.time()))
     http_method = "POST"
@@ -110,6 +97,8 @@ def recognize_song() -> tuple:
         "signature_version": "1"
     }
 
+    print("Analyzing song...")
+
     # Read WAV file as binary
     with open("temp.wav", "rb") as f:
         files = {"sample": f}
@@ -120,6 +109,7 @@ def recognize_song() -> tuple:
     os.remove("temp.wav")
     if "metadata" in result and "music" in result["metadata"]:
         song_data = result["metadata"]["music"][0]
+        print("Song found.")
         return song_data["title"], song_data["artists"][0]["name"]
     return None, None
 
@@ -150,6 +140,7 @@ def write_output(title : str, artist : str) -> None:
             f.write("f")
             print("Song not recognized")
         else:
+            print("Fetching song data...")
             urls = get_song_urls(title, artist)
 
             f.write("t\n")
@@ -158,15 +149,14 @@ def write_output(title : str, artist : str) -> None:
             f.write(f"{urls[0]}\n")
             f.write(f"{urls[1]}\n")
             f.write(f"{urls[2]}\n")
+            print("Done.")
 
 if __name__ == "__main__":
     # API keys
-    ACR_HOST = "identify-us-west-2.acrcloud.com"
     api_keys = load_api_keys("keys.txt")
 
     # Finding the song
     download_video("https://www.instagram.com/reel/DGmD9ABCxaE/")
-    mp4_to_wav()
 
     # Creating output file
     t, a = recognize_song()
