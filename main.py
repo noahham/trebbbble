@@ -5,6 +5,7 @@ import hashlib
 import base64
 import requests
 import spotipy
+import urllib.parse
 import yt_dlp
 import ffmpeg
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -124,35 +125,58 @@ def recognize_song() -> tuple:
         return song_data["title"], song_data["artists"][0]["name"]
     return None, None
 
-def get_spotify_url(title : str, artist : str) -> str:
+def get_spotify_url(title: str, artist: str) -> str:
     """
-    Gets the spotify url from a title and artist.
+    Generates a Spotify search link for the given song title and artist.
 
     Args:
-        title (str): Song title.
-        artist (str): Song artist.
+        title (str): The title of the song.
+        artist (str): The artist of the song.
 
     Returns:
-        str: The Spotify URL.
+        str: Spotify search URL.
     """
 
-    sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
-        client_id=api_keys["SPOTIFY_CLIENT_ID"], client_secret=api_keys["SPOTIFY_CLIENT_SECRET"]
-    ))
+    query = f"{title} {artist}"
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://open.spotify.com/search/{encoded_query}"
+    return url
 
-    query = f"track:{title} artist:{artist}"
-    results = sp.search(q=query, limit=1, type="track")
-    tracks = results.get("tracks", {}).get("items", [])
 
-    if tracks:
-        return tracks[0]["external_urls"]["spotify"]
-    return "No Spotify URL found."
+def get_youtube_music_url(title: str, artist: str) -> str:
+    """
+    Generates a YouTube Music search link for the given song title and artist.
 
-def get_youtube_url(title : str, artist : str) -> str:
-    return "test"
+    Args:
+        title (str): The title of the song.
+        artist (str): The artist of the song.
 
-def get_apple_music_url(title : str, artist : str) -> str:
-    return "test"
+    Returns:
+        str: YouTube Music search URL.
+    """
+
+    query = f"{title} {artist}"
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://music.youtube.com/search?q={encoded_query}"
+    return url
+
+
+def get_apple_music_url(title: str, artist: str) -> str:
+    """
+    Generates an Apple Music search link for the given song title and artist.
+
+    Args:
+        title (str): The title of the song.
+        artist (str): The artist of the song.
+
+    Returns:
+        str: Apple Music search URL.
+    """
+
+    query = f"{title} {artist}"
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://music.apple.com/us/search?term={encoded_query}"
+    return url
 
 def write_output(title : str, artist : str) -> None:
     with open("out.txt", "w") as f:
@@ -166,7 +190,7 @@ def write_output(title : str, artist : str) -> None:
             f.write(f"{title}\n")
             f.write(f"{artist}\n")
             f.write(f"{get_spotify_url(title, artist)}\n")
-            f.write(f"{get_youtube_url(title, artist)}\n")
+            f.write(f"{get_youtube_music_url(title, artist)}\n")
             f.write(f"{get_apple_music_url(title, artist)}\n")
 
 if __name__ == "__main__":
