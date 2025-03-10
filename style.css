@@ -30,6 +30,7 @@ form {
     width: 100%;
 
     margin-top: 5rem;
+    margin-bottom: 2rem;
 }
 
 .input-group {
@@ -70,6 +71,80 @@ input {
     outline: none;
 }
 
+/* Song Card */
+#song-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+    width: 50%;
+    height: 30vh;
+    border-radius: 10px;
+
+    margin-top: 5vh;
+    padding: 1rem;
+}
+
+.cover {
+    width: 140px;
+    height: 140px;
+
+    transition: all 0.5s;
+}
+
+.cover:hover {transform: scale(1.03)}
+
+.link-holder {
+    display: flex;
+    gap: 10px;
+}
+
+.cover-and-links {
+    display: flex;
+    justify-content: space-between;
+}
+
+h2 {
+    font-size: 2rem;
+    line-height: 2rem;
+    margin: 0.5rem 0 0.5rem;
+}
+
+h3 {margin: 0;font-weight: 500;}
+
+.icon {
+    width: 30px;
+}
+
+.icon-link {
+    width: 30px;
+    height: 30px;
+    transition: all 0.3s;
+}
+
+.icon-link:hover {transform: scale(1.05);}
+
+/* Footer */
+footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.footer {
+    color: #cccccc;
+}
+
+.footer-link {
+    color: #cccccc;
+    text-decoration: none;
+
+    transition: all 0.5s;
+}
+
+.footer-link:hover {color: black;}
+
+/* Media Queries */
+
 @media (max-width: 1100px) {
     body {
         margin-left: 10vw;
@@ -79,4 +154,13 @@ input {
     #submit {width: 25%}
 
     #url {width: 75%;}
+
+    #song-card {width: 75%;}
+
+    .cover {
+        width: 100px;
+        height: 100px;
+    }
+
+    .icon {width: 25px;}
 }
