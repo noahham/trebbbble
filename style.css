@@ -14,10 +14,10 @@ body {
 }
 
 /* Title */
-h1 {animation: letterSpacingAnimation 0.75s forwards;}
+h1 {animation: letterSpacingAnimation 0.9s forwards;}
 
 @keyframes letterSpacingAnimation {
-    from {letter-spacing: 0;}
+    from {letter-spacing: -0.75rem;}
     to {letter-spacing: -0.1875rem;}
 }
 
