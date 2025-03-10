@@ -18,7 +18,7 @@ h1 {animation: letterSpacingAnimation 0.9s forwards;}
 
 @keyframes letterSpacingAnimation {
     from {letter-spacing: -0.75rem;}
-    to {letter-spacing: -0.1875rem;}
+    to {letter-spacing: -0.16rem;}
 }
 
 /* Inputs */
@@ -51,15 +51,15 @@ input {
 }
 
 /* Submit Button */
-#submit {width: 15%}
-
-#submit:hover {
+#submit {
+    width: 15%;
     background-color: black;
     border-color: black;
     color: white;
-    transform: scale(1.05);
     font-weight: 500;
 }
+
+#submit:hover {transform: scale(1.05);}
 
 /* URL Input */
 #url {width: 85%;}
@@ -73,10 +73,8 @@ input {
 
 /* Song Card */
 #song-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #f0f0f0;
+    display: none;
+    background-color: white;
     width: 50%;
     height: 30vh;
     border-radius: 10px;
@@ -84,6 +82,20 @@ input {
     margin-top: 5vh;
     padding: 1rem;
 }
+
+#song-card.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+}
+
+#song-card.show {animation: fadeIn 0.5s forwards;}
+#song-card.show .cover {animation: fadeIn 0.5s forwards;}
+#song-card.show .link-holder {animation: fadeIn 0.5s forwards;}
+#song-card.show h2 {animation: fadeIn 0.5s forwards;}
+#song-card.show h3{animation: fadeIn 0.5s forwards;}
+#song-card.show .icon-link {animation: fadeIn 0.5s forwards;}
 
 .cover {
     width: 140px;
@@ -112,9 +124,7 @@ h2 {
 
 h3 {margin: 0;font-weight: 500;}
 
-.icon {
-    width: 30px;
-}
+.icon {width: 30px;}
 
 .icon-link {
     width: 30px;
@@ -124,18 +134,34 @@ h3 {margin: 0;font-weight: 500;}
 
 .icon-link:hover {transform: scale(1.05);}
 
+/* Error Messages */
+.error {margin-top: 2rem;}
+
+#invalid-error {display: none;}
+
+#invalid-error.error.show {display: block;}
+
+#no-song-error {display: none;}
+
+#no-song-error.error.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-block {
+    line-height: 1.15rem;
+    margin-top: 2rem;
+}
+
 /* Footer */
 footer {
     position: absolute;
     bottom: 0;
-}
-
-.footer {
-    color: #cccccc;
+    color: #bebebe
 }
 
 .footer-link {
-    color: #cccccc;
+    color: #bebebe;
     text-decoration: none;
 
     transition: all 0.5s;
@@ -145,7 +171,18 @@ footer {
 
 /* Media Queries */
 
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
+    body {
+        margin-left: 10vw;
+        margin-right: 10vw;
+    }
+
+    #submit {width: 15%}
+
+    #url {width: 85%;}
+}
+
+@media (max-width: 748px) {
     body {
         margin-left: 10vw;
         margin-right: 10vw;
