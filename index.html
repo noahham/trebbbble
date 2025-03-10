@@ -2,16 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Trebbbble.</title>
+    <title>Trebbbble</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="media/favicon.png">
 </head>
     <body>
         <h1>Trebbbble.</h1>
-        <form action="" method="post">
+        <form action="" method="post" id="form">
             <label for="url">Paste a URL from TikTok, Instagram Reels, or YouTube Shorts:</label>
             <div class="input-group">
                 <input type="text" id="url" name="URL" placeholder="https://www.instagram.com/reel/DE6irMrKwG4/">
-                <input type="submit" id="submit" value="Search">
+                <div id="submit-div"><input type="submit" id="submit" value="Search"></div>
+
             </div>
         </form>
         <div id="song-card">
@@ -39,5 +41,6 @@
         <footer>
             <p>Created by <a href="https://noahham.com" target="_blank" class="footer-link">Noah Ham</a>.</p>
         </footer>
+        <script src="scripts/submit_click.js"></script>
     </body>
 </html>
