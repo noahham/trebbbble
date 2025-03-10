@@ -29,9 +29,13 @@ form {
     gap: 20px;
     width: 100%;
 
-    margin-top: 5rem;
+    margin-top: 10rem;
     margin-bottom: 2rem;
+
+    transition: all 1s;
 }
+
+label:hover {cursor: text}
 
 .input-group {
     width: 100%;
@@ -59,7 +63,34 @@ input {
     font-weight: 500;
 }
 
-#submit:hover {transform: scale(1.05);}
+#submit:hover {
+    animation: submitHover 0.7s ease-in-out forwards;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+@keyframes submitHover {
+    0% {
+        background-color: black;
+        border-color: black;
+    }
+    10% {
+        background-color: red;
+        border-color: red;
+    }
+    20% {
+        background-color: yellow;
+        border-color: yellow;
+    }
+    30% {
+        background-color: deepskyblue;
+        border-color: deepskyblue;
+    }
+    100% {
+        background-color: black;
+        border-color: black;
+    }
+}
 
 /* URL Input */
 #url {width: 85%;}
@@ -75,7 +106,8 @@ input {
 #song-card {
     display: none;
     background-color: white;
-    width: 50%;
+    min-width: 50%;
+    max-width: 75%;
     height: 30vh;
     border-radius: 10px;
 
@@ -90,12 +122,12 @@ input {
     background-color: #f0f0f0;
 }
 
-#song-card.show {animation: fadeIn 0.5s forwards;}
-#song-card.show .cover {animation: fadeIn 0.5s forwards;}
-#song-card.show .link-holder {animation: fadeIn 0.5s forwards;}
-#song-card.show h2 {animation: fadeIn 0.5s forwards;}
-#song-card.show h3{animation: fadeIn 0.5s forwards;}
-#song-card.show .icon-link {animation: fadeIn 0.5s forwards;}
+/*#song-card.show {animation: fadeIn 0.5s forwards;}*/
+/*#song-card.show .cover {animation: fadeIn 0.5s forwards;}*/
+/*#song-card.show .link-holder {animation: fadeIn 0.5s forwards;}*/
+/*#song-card.show h2 {animation: fadeIn 0.5s forwards;}*/
+/*#song-card.show h3{animation: fadeIn 0.5s forwards;}*/
+/*#song-card.show .icon-link {animation: fadeIn 0.5s forwards;}*/
 
 .cover {
     width: 140px;
@@ -119,10 +151,16 @@ input {
 h2 {
     font-size: 2rem;
     line-height: 2rem;
+    letter-spacing: -0.05rem;
     margin: 0.5rem 0 0.5rem;
 }
 
-h3 {margin: 0;font-weight: 500;}
+h3 {
+    font-weight: 500;
+    letter-spacing: -0.01rem;
+
+    margin: 0;
+}
 
 .icon {width: 30px;}
 
