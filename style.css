@@ -126,21 +126,17 @@ input {
     background-color: #f0f0f0;
 }
 
-/*#song-card.show {animation: fadeIn 0.5s forwards;}*/
-/*#song-card.show .cover {animation: fadeIn 0.5s forwards;}*/
-/*#song-card.show .link-holder {animation: fadeIn 0.5s forwards;}*/
-/*#song-card.show h2 {animation: fadeIn 0.5s forwards;}*/
-/*#song-card.show h3{animation: fadeIn 0.5s forwards;}*/
-/*#song-card.show .icon-link {animation: fadeIn 0.5s forwards;}*/
+/* TODO: FIGURE OUT HOW TO ANIMATE STUFF ON SHOW TOGGLE */
 
-.cover {
+#cover {
     width: 140px;
     height: 140px;
+    border-radius: 5px;
 
     transition: all 0.5s;
 }
 
-.cover:hover {transform: scale(1.03)}
+#cover:hover {transform: scale(1.03)}
 
 .link-holder {
     display: flex;
@@ -177,19 +173,13 @@ h3 {
 .icon-link:hover {transform: scale(1.05);}
 
 /* Error Messages */
-.error {margin-top: 2rem;}
+#error {margin-top: 2rem;}
 
-#invalid-error {display: none;}
-
-#invalid-error.error.show {display: block;}
-
-#no-song-error {display: none;}
-
-#no-song-error.error.show {
+#error.show {
     display: flex;
     flex-direction: column;
 }
-
+/* TODO: Make the text left-aligned if the error is the no song one */
 .text-block {
     line-height: 1.15rem;
     margin-top: 2rem;
@@ -218,17 +208,9 @@ footer {
         margin-left: 10vw;
         margin-right: 10vw;
     }
-
-    #submit {width: 15%}
-
-    #url {width: 85%;}
 }
 
 @media (max-width: 748px) {
-    body {
-        margin-left: 10vw;
-        margin-right: 10vw;
-    }
 
     #submit {width: 25%}
 

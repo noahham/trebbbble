@@ -15,30 +15,38 @@
                 <input type="submit" id="submit" value="Search">
             </div>
         </form>
-        <div id="song-card">
+        <div id="song-card" class="show">
             <div class="cover-and-links">
-                <img src="media/cover.jpg" alt="Album Cover" class="cover">
+                <img src="media/cover.jpg" alt="Album Cover" id="cover">
                 <div class="link-holder">
-                    <a href="" class="icon-link"><img src="media/spotify.png" alt="Spotify" class="icon"></a>
-                    <a href="" class="icon-link"><img src="media/yt_music.png" alt="YT Music" class="icon"></a>
-                    <a href="" class="icon-link"><img src="media/apple_music.png" alt="Apple Music" class="icon"></a>
+                    <a href="" class="icon-link" id="spotify"><img src="media/spotify.png" alt="Spotify" class="icon"></a>
+                    <a href="" class="icon-link" id="yt-music"><img src="media/yt_music.png" alt="YT Music" class="icon"></a>
+                    <a href="" class="icon-link" id="apple-music"><img src="media/apple_music.png" alt="Apple Music" class="icon"></a>
                 </div>
             </div>
             <div>
-                <h2>Title</h2>
-                <h3>Artist</h3>
+                <h2 id="title">Title</h2>
+                <h3 id="artist">Artist</h3>
             </div>
         </div>
-        <div id="invalid-error" class="error">
+        <div id="error" class="show">
+            <p>No URL given. Paste something into the box lil bro.</p>
+
             <p>Invalid URL. Please enter a valid TikTok, Instagram Reels, or YouTube Shorts URL.</p>
-        </div>
-        <div id="no-song-error" class="error">
+
             <h3>Sorry, it looks like we couldn't find a song.</h3>
             <p class="text-block">This could be for a bunch of different reasons, it could be because the song is too niche, the background audio is too noisy, or maybe your dumbass didn't even give a video that had a song.<br><br>You might have to actually check the comments for this one.</p>
-            <p></p>
         </div>
         <footer>
-            <p>Created by <a href="https://noahham.com" target="_blank" class="footer-link">Noah Ham</a>.</p>
+            <p>
+                Created by
+                <a href="https://noahham.com" target="_blank" class="footer-link">Noah Ham</a>
+                with
+                <a href="https://flask.palletsprojects.com/en/stable/" target="_blank" class="footer-link">Flask</a>
+                and
+                <a href="https://www.acrcloud.com/" target="_blank" class="footer-link">ACRCloud</a>
+                .
+            </p>
         </footer>
         <script src="scripts/submit_click.js"></script>
     </body>
