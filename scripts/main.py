@@ -47,7 +47,7 @@ def download_video(url : str) -> None:
 
         # yt-dlp options
         ydl_opts = {
-            "outtmpl": "temp.%(ext)s",  # Ensure correct extension
+            "outtmpl": os.path.join("output", "temp.%(ext)s"),  # Ensure correct extension
             "format": "bestaudio/best",  # Get the best audio format available
             "quiet": True,  # Suppress logs
             "noprogress": True,  # Hide progress bar
@@ -91,7 +91,7 @@ def recognize_song() -> tuple:
 
     data = {
         "access_key": api_keys["ACR_ACCESS_KEY"],
-        "sample_bytes": os.path.getsize("temp.wav"),
+        "sample_bytes": os.path.getsize("output/temp.wav"),
         "timestamp": timestamp,
         "signature": signature,
         "data_type": "audio",
@@ -101,15 +101,16 @@ def recognize_song() -> tuple:
     print("Analyzing song...")
 
     # Read WAV file as binary
-    with open("temp.wav", "rb") as f:
+    with open("output/temp.wav", "rb") as f:
         files = {"sample": f}
         response = requests.post(url, data=data, files=files)
 
     # Parse response
     result = response.json()
-    os.remove("temp.wav")
+    os.remove("output/temp.wav")
     if "metadata" in result and "music" in result["metadata"]:
         song_data = result["metadata"]["music"][0]
+        print(song_data)
         print("Song found.")
         return song_data["title"], song_data["artists"][0]["name"]
     return None, None
@@ -144,7 +145,7 @@ def write_output(title : str, artist : str) -> None:
         artist (str): The artist of the song.
     """
 
-    with open("out.txt", "w") as f:
+    with open("output/out.txt", "w") as f:
         if not title and not artist:
             f.write("f")
             print("Song not recognized")
