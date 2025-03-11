@@ -136,13 +136,16 @@ def get_song_urls(title: str, artist: str) -> tuple:
         f"https://music.apple.com/us/search?term={encoded_query}"
         )
 
-def write_output(title : str, artist : str) -> None:
+def generate_output(title : str, artist : str) -> dict:
     """
-    Writes song data to out.txt in the working directory.
+    Tries to make a dictionary with the song data.
 
     Args:
         title (str): The title of the song.
         artist (str): The artist of the song.
+
+    Returns:
+        dict: A dictionary containing the song data.
     """
 
     with open("output/out.txt", "w") as f:
@@ -161,13 +164,29 @@ def write_output(title : str, artist : str) -> None:
             f.write(f"{urls[2]}\n")
             print("Done.")
 
+    if title and artist:
+        return {
+            "success": True,
+            "title": title,
+            "artist": artist,
+            "spotify": urls[0],
+            "youtube": urls[1],
+            "apple": urls[2]
+        }
+
+    else:
+        return {
+            "success": False,
+            "error": "Song not recognized"
+        }
+
 def main(url):
     # Generating WAV file
     download_video(url)
 
-    # Retrieving and writing song data
+    # Retrieving and return song data
     t, a = recognize_song()
-    write_output(t, a)
+    return generate_output(t, a)
 
 if __name__ == "__main__":
     main("https://www.instagram.com/p/DGTK_b2PuX_/")

@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify
-from main import main  # Replace with the actual script where main() is defined
+from flask import Flask, request, jsonify, send_from_directory
+from main import main
 import os
 
 app = Flask(__name__)
@@ -10,22 +10,23 @@ def process():
     url = data.get('url')
 
     if not url:
-        return jsonify({'error': 'No URL provided'}), 400
+        return jsonify({
+            'error': 'No URL provided',
+            'success': False
+        }), 400
 
     try:
-        main(url)  # Main function
+        return jsonify(main(url))
 
-        text_file = "output/out.txt"
-        cover_file = "../media/cover.jpg"
-
-        if not os.path.exists(text_file) or not os.path.exists(cover_file):
-            return jsonify({'error': 'Files were not created'}), 500
-
-        return jsonify({
-            'success': True,
-        })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/output/<filename>')
+def serve_file(filename):
+    if filename == "cover.jpg":
+        return send_from_directory("../media", filename)
+    elif filename == "out.txt":
+        return send_from_directory("output", filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
