@@ -1,5 +1,6 @@
 requests~=2.32.3
 yt-dlp~=2025.2.19
+Flask~=3.1.0
 
 # keys.txt must be formatted as follows (without the comment hashes, obviously):
 # (ACRCloud Host URL)
