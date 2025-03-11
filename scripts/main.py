@@ -148,23 +148,8 @@ def generate_output(title : str, artist : str) -> dict:
         dict: A dictionary containing the song data.
     """
 
-    with open("output/out.txt", "w") as f:
-        if not title and not artist:
-            f.write("f")
-            print("Song not recognized")
-        else:
-            print("Fetching song data...")
-            urls = get_song_urls(title, artist)
-
-            f.write("t\n")
-            f.write(f"{title}\n")
-            f.write(f"{artist}\n")
-            f.write(f"{urls[0]}\n")
-            f.write(f"{urls[1]}\n")
-            f.write(f"{urls[2]}\n")
-            print("Done.")
-
     if title and artist:
+        urls = get_song_urls(title, artist)
         return {
             "success": True,
             "title": title,
@@ -173,7 +158,6 @@ def generate_output(title : str, artist : str) -> dict:
             "youtube": urls[1],
             "apple": urls[2]
         }
-
     else:
         return {
             "success": False,

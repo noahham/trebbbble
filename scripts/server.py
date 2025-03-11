@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, send_from_directory
 from main import main
-import os
 
 app = Flask(__name__)
 
@@ -19,14 +18,17 @@ def process():
         return jsonify(main(url))
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'error': str(e),
+            'success': False
+        }), 500
 
 @app.route('/output/<filename>')
 def serve_file(filename):
     if filename == "cover.jpg":
         return send_from_directory("../media", filename)
-    elif filename == "out.txt":
-        return send_from_directory("output", filename)
+    else:
+        return None
 
 if __name__ == '__main__':
     app.run(debug=True)
