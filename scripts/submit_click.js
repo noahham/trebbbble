@@ -1,11 +1,4 @@
-function handleSubmit(event) {
-    event.preventDefault(); // Prevent the form from submitting immediately
-
-    document.getElementById("submit").classList.add("animate"); // Trigger your animation
-    document.getElementById("form").style.marginTop = "5rem";
-
-    setTimeout(() => {event.target.submit();}, 500);
-}
+let dict; // global var type shit
 
 document.getElementById("form").addEventListener("submit", async function(event) {
     event.preventDefault(); // Prevent page reload
@@ -18,29 +11,42 @@ document.getElementById("form").addEventListener("submit", async function(event)
     errorMessage.classList.remove("show");
 
     try {
-        const response = await fetch('/process', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: url })
+        fetchData().then(() => {
+            console.log(dict)
+            if (dict.success === true) { // If a song was found
+                document.getElementById("spotify").href = dict.spotify;
+                document.getElementById("yt-music").href = dict.youtube;
+                document.getElementById("apple-music").href = dict.apple;
+                document.getElementById("title").textContent = dict.title;
+                document.getElementById("artist").textContent = dict.artist;
+
+                songCard.classList.add("show");
+            } else { // If no song was found
+                errorMessage.textContent = `Error: ${dict.error}`;
+                errorMessage.classList.add("show");
+            }
         });
-
-        const data = await response.json();
-
-        if (data.success) {
-            document.getElementById("spotify").href = data.spotify;
-            document.getElementById("yt-music").href = data.youtube;
-            document.getElementById("apple-music").href = data.apple;
-            document.getElementById("title").textContent = data.title;
-            document.getElementById("artist").textContent = data.artist;
-
-            songCard.classList.add("show");
-        } else {
-            errorMessage.textContent = `Error: ${data.error}`;
-            errorMessage.classList.add("show");
-        }
     } catch (error) {
-        errorMessage.textContent = "Network error. Please try again.";
+        errorMessage.textContent = error;
         errorMessage.classList.add("show");
         console.error("Error:", error);
     }
 });
+
+async function fetchData() {
+    const response = await fetch('http://127.0.0.1:5000/process', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'value' })
+    });
+    dict = await response.json();  // Assign data
+}
+
+function handleSubmit(event) {
+    event.preventDefault(); // Prevent the form from submitting immediately
+
+    document.getElementById("submit").classList.add("animate"); // Trigger your animation
+    document.getElementById("form").style.marginTop = "5rem";
+
+    setTimeout(() => {(document.getElementById('form')).submit()}, 500);
+}

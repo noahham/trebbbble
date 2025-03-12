@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 from main import main
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/process', methods=['POST'])
 def process():
@@ -31,4 +33,4 @@ def serve_file(filename):
         return None
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
