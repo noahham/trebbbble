@@ -173,7 +173,10 @@ h3 {
 .icon-link:hover {transform: scale(1.05);}
 
 /* Error Messages */
-#error {margin-top: 2rem;}
+#error {
+    margin-top: 2rem;
+    display:none;
+}
 
 #error.show {
     display: flex;
