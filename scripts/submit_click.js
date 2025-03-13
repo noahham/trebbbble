@@ -13,6 +13,7 @@ document.getElementById("form").addEventListener("submit", async function(event)
     try {
         getData(url).then(() => {
             console.log(dict)
+            // Stores output data to dict variable
             if (dict.success === true) { // If a song was found
                 document.getElementById("spotify").href = dict.spotify;
                 document.getElementById("yt-music").href = dict.youtube;
@@ -27,9 +28,9 @@ document.getElementById("form").addEventListener("submit", async function(event)
             }
         });
     } catch (error) {
-        errorMessage.textContent = error;
+        errorMessage.textContent = `JS Error: ${error}`;
         errorMessage.classList.add("show");
-        console.error("Error:", error);
+        console.error("JS Error:", error);
     }
 });
 

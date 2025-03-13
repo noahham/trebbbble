@@ -31,18 +31,20 @@ def load_api_keys(file_path : str) -> dict:
         "ACR_ACCESS_SECRET": keys[2]
     }
 
-def download_video(url : str) -> None:
+def download_video(url : str, error: list) -> None:
     """
     Scrapes video from either Reels, YT Shorts, or TikTok and writes to working directory.
 
     Args:
         url (str): URL to video from Reels, YT Shorts, or TikTok.
+        error (list): List to store error messages.
     """
 
     try:
         if "youtube.com" in url or "youtu.be" in url:
             if "shorts" not in url: # YouTube Shorts only
                 print("Not a YouTube Shorts link.")
+                error.append("Only YouTube SHORTS links are supported at the moment.")
                 return
 
         # yt-dlp options
@@ -66,10 +68,11 @@ def download_video(url : str) -> None:
 
         print("Download successful.")
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    except:
+        error.append("Invalid URL. Please enter a valid TikTok, Instagram Reels, or YouTube Shorts URL.")
+        print(f"asd")
 
-def recognize_song() -> tuple:
+def recognize_song(error: list) -> tuple:
     """
     Recognizes song from WAV file.
 
@@ -113,6 +116,7 @@ def recognize_song() -> tuple:
         print(song_data)
         print("Song found.")
         return song_data["title"], song_data["artists"][0]["name"]
+    error.append("Song wasn't recognized.")
     return None, None
 
 def get_song_urls(title: str, artist: str) -> tuple:
@@ -136,13 +140,14 @@ def get_song_urls(title: str, artist: str) -> tuple:
         f"https://music.apple.com/us/search?term={encoded_query}"
         )
 
-def generate_output(title : str, artist : str) -> dict:
+def generate_output(title: str, artist: str, error: list) -> dict:
     """
     Tries to make a dictionary with the song data.
 
     Args:
         title (str): The title of the song.
         artist (str): The artist of the song.
+        error (list): List to store error messages.
 
     Returns:
         dict: A dictionary containing the song data.
@@ -161,16 +166,18 @@ def generate_output(title : str, artist : str) -> dict:
     else:
         return {
             "success": False,
-            "error": "Song not recognized"
+            "error": error[0]
         }
 
 def main(url):
+    error_msg = []
+    t, a = None, None
+
     # Generating WAV file
-    download_video(url)
+    download_video(url, error_msg)
 
-    # Retrieving and return song data
-    t, a = recognize_song()
-    return generate_output(t, a)
+    # Retrieving and return song data if no errors
+    if len(error_msg) == 0:
+        t, a = recognize_song(error_msg)
 
-if __name__ == "__main__":
-    main("https://www.instagram.com/p/DGTK_b2PuX_/")
+    return generate_output(t, a, error_msg)
