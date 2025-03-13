@@ -11,7 +11,7 @@ document.getElementById("form").addEventListener("submit", async function(event)
     errorMessage.classList.remove("show");
 
     try {
-        fetchData().then(() => {
+        getData(url).then(() => {
             console.log(dict)
             if (dict.success === true) { // If a song was found
                 document.getElementById("spotify").href = dict.spotify;
@@ -33,11 +33,13 @@ document.getElementById("form").addEventListener("submit", async function(event)
     }
 });
 
-async function fetchData() {
+async function getData(text) {
     const response = await fetch('http://127.0.0.1:5000/process', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key: 'value' })
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            "url": text
+        })
     });
     dict = await response.json();  // Assign data
 }

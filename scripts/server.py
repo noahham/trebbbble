@@ -5,10 +5,9 @@ from main import main
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/process', methods=['POST'])
+@app.route('/process', methods=['GET', 'POST'])
 def process():
-    data = request.json
-    url = data.get('url')
+    url = request.get_json()['url']
 
     if not url:
         return jsonify({
