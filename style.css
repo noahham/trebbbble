@@ -109,7 +109,7 @@ input {
 /* Song Card */
 #song-card {
     display: none;
-    background-color: white;
+    background-color: #f0f0f0;
     min-width: 50%;
     max-width: 75%;
     height: 30vh;
@@ -117,13 +117,13 @@ input {
 
     margin-top: 5vh;
     padding: 1rem;
+    transition: all 0.5s;
 }
 
 #song-card.show {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #f0f0f0;
 }
 
 /* TODO: FIGURE OUT HOW TO ANIMATE STUFF ON SHOW TOGGLE */
@@ -136,7 +136,10 @@ input {
     transition: all 0.5s;
 }
 
-#cover:hover {transform: scale(1.03)}
+#cover:hover {
+    transform: scale(1.03);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
+}
 
 .link-holder {
     display: flex;
