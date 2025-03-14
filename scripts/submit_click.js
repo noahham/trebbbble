@@ -37,6 +37,7 @@ document.getElementById("form").addEventListener("submit", async function(event)
                     if (dict.cover === true) {
                         albumCover.src = "media/cover.jpg?v=" + new Date().getTime();
                         songCard.style.backgroundColor = dict.color;
+                        songCard.style.color = dict.text_color;
                     }
 
 

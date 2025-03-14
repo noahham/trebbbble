@@ -194,6 +194,26 @@ def get_color() -> str:
     else:
         return "NO_COLOR"
 
+def get_text_color(hex_color: str):
+    """
+    Determines whether white or black text provides better readability on a given background color.
+
+    Args:
+        hex_color (str): Hex color string.
+
+    Returns:
+        str: "#FFFFFF" for white text or "#000000" for black text
+    """
+    if hex_color == "NO_COLOR":
+        return "#000000"
+
+    r, g, b = int(hex_color[1:3], 16), int(hex_color[3:5], 16), int(hex_color[5:7], 16)
+
+    # Calculate Relative luminance
+    luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+
+    return "#FFFFFF" if luminance < 0.5 else "#000000"
+
 def get_song_urls(title: str, artist: str) -> tuple:
     """
     Generates a Spotify, YouTube Music, and Apple Music search link for the given song title and artist.
@@ -232,12 +252,14 @@ def generate_output(title: str, artist: str, cover: bool, color: str, error: lis
 
     if title and artist:
         urls = get_song_urls(title, artist)
+        text_color = get_text_color(color)
         return {
             "success": True,
             "title": title,
             "artist": artist,
             "cover": cover,
             "color": color,
+            "text_color": text_color,
             "spotify": urls[0],
             "youtube": urls[1],
             "apple": urls[2]
