@@ -147,13 +147,13 @@ def get_album_cover(title: str, artist: str) -> bool:
         data = response.json()
 
         if data["resultCount"] > 0:
-            album_cover_url = data["results"][0].get("artworkUrl100", "").replace("100x100bb", "600x600bb")
+            album_cover_url = data["results"][0].get("artworkUrl100", "").replace("100x100bb", "1200x1200bb")
             if album_cover_url:
                 image_response = requests.get(album_cover_url, stream=True)
                 image_response.raise_for_status()
 
                 image = Image.open(BytesIO(image_response.content))
-                image = image.resize((140, 140), Image.LANCZOS)
+                image = image.resize((300, 300), Image.BICUBIC)
 
                 image.save("../media/cover.jpg", "JPEG")
 
