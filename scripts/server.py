@@ -5,7 +5,7 @@ from main import main
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/process', methods=['GET', 'POST'])
+@app.route('/process', methods=['POST'])
 def process():
     url = request.get_json()['url']
 
