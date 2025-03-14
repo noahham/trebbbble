@@ -6,6 +6,8 @@ import base64
 import requests
 import urllib.parse
 import yt_dlp
+from PIL import Image
+from io import BytesIO
 
 def load_api_keys(file_path : str) -> dict:
     """
@@ -118,7 +120,52 @@ def recognize_song(error: list) -> tuple:
     error.append("NO_SONG_FOUND")
     return None, None
 
-# TODO: Function to get album cover
+def fetch_album_cover(song_name: str, artist_name: str) -> bool:
+    """
+    Gets an album cover given a song's title and artist using the iTunes API.
+
+    Args:
+        song_name (str): The name of the song.
+        artist_name (str): The name of the artist.
+
+    Returns:
+        (bool) True if the album cover was found and saved, False otherwise.
+    """
+    base_url = "https://itunes.apple.com/search"
+
+    # Parameters for search
+    params = {
+        "term": f"{song_name} {artist_name}",
+        "media": "music",
+        "limit": 1
+    }
+
+    try:
+        # Fetches request
+        response = requests.get(base_url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        if data["resultCount"] > 0:
+            album_cover_url = data["results"][0].get("artworkUrl100", "").replace("100x100bb", "600x600bb")
+            if album_cover_url:
+                image_response = requests.get(album_cover_url, stream=True)
+                image_response.raise_for_status()
+
+                image = Image.open(BytesIO(image_response.content))
+                image = image.resize((140, 140), Image.LANCZOS)
+
+                image.save("../media/cover.jpg", "JPEG")
+
+                print("Album cover saved.")
+                return True
+
+        print("No album cover found.")
+        return False
+
+    except requests.RequestException as e:
+        print(f"Error fetching album cover: {e}")
+        return False
 
 # TODO: Function to get most vibrant color in the album cover
 
