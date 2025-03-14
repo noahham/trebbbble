@@ -7,12 +7,14 @@ document.getElementById("form").addEventListener("submit", async function(event)
     const songCard = document.getElementById("song-card");
     const errorMessage = document.getElementById("error");
     const noSongError = document.getElementById("no-song-error")
+    const albumCover = document.getElementById("cover");
     const loading = document.getElementById("loading");
 
     songCard.classList.remove("show");
     errorMessage.classList.remove("show");
     noSongError.classList.remove("show");
     loading.classList.add("show");
+    albumCover.src = "media/default-cover.jpg"
 
 
     try {
@@ -31,6 +33,10 @@ document.getElementById("form").addEventListener("submit", async function(event)
                     document.getElementById("apple-music").href = dict.apple;
                     document.getElementById("title").textContent = dict.title;
                     document.getElementById("artist").textContent = dict.artist;
+
+                    if (dict.cover === true) {
+                        albumCover.src = "media/cover.jpg?v=" + new Date().getTime();
+                    }
 
 
                     songCard.classList.add("show");
@@ -71,5 +77,16 @@ function handleSubmit(event) {
     document.getElementById("submit").classList.add("animate"); // Trigger your animation
     document.getElementById("form").style.marginTop = "5rem";
 
-    setTimeout(() => {(document.getElementById('form')).submit()}, 500);
+    setTimeout(() => {
+        try {
+            let form = document.getElementById("form");
+            if (form && form.tagName === "FORM") {
+                form.submit();
+            } else {
+                console.error("Element with ID 'form' is not a form.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }, 500);
 }

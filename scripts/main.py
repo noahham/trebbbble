@@ -120,13 +120,13 @@ def recognize_song(error: list) -> tuple:
     error.append("NO_SONG_FOUND")
     return None, None
 
-def fetch_album_cover(song_name: str, artist_name: str) -> bool:
+def get_album_cover(title: str, artist: str) -> bool:
     """
     Gets an album cover given a song's title and artist using the iTunes API.
 
     Args:
-        song_name (str): The name of the song.
-        artist_name (str): The name of the artist.
+        title (str): The name of the song.
+        artist (str): The name of the artist.
 
     Returns:
         (bool) True if the album cover was found and saved, False otherwise.
@@ -135,7 +135,7 @@ def fetch_album_cover(song_name: str, artist_name: str) -> bool:
 
     # Parameters for search
     params = {
-        "term": f"{song_name} {artist_name}",
+        "term": f"{title} {artist}",
         "media": "music",
         "limit": 1
     }
@@ -190,13 +190,14 @@ def get_song_urls(title: str, artist: str) -> tuple:
         f"https://music.apple.com/us/search?term={encoded_query}"
         )
 
-def generate_output(title: str, artist: str, error: list) -> dict:
+def generate_output(title: str, artist: str, cover: bool, error: list) -> dict:
     """
     Tries to make a dictionary with the song data.
 
     Args:
         title (str): The title of the song.
         artist (str): The artist of the song.
+        cover (bool): Whether the album cover was found.
         error (list): List to store error messages.
 
     Returns:
@@ -209,6 +210,7 @@ def generate_output(title: str, artist: str, error: list) -> dict:
             "success": True,
             "title": title,
             "artist": artist,
+            "cover": cover,
             "spotify": urls[0],
             "youtube": urls[1],
             "apple": urls[2]
@@ -222,6 +224,7 @@ def generate_output(title: str, artist: str, error: list) -> dict:
 def main(url):
     error_msg = []
     t, a = None, None
+    cover = False
 
     # Generating WAV file
     download_video(url, error_msg)
@@ -229,5 +232,7 @@ def main(url):
     # Retrieving and return song data if no errors
     if len(error_msg) == 0:
         t, a = recognize_song(error_msg)
+        cover = get_album_cover(t, a)
+        # color = get_prominent_color()
 
-    return generate_output(t, a, error_msg)
+    return generate_output(t, a, cover, error_msg)
