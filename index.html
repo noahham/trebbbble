@@ -15,7 +15,12 @@
                 <input type="submit" id="submit" value="Search">
             </div>
         </form>
-        <div id="song-card" class="show">
+        <div id="loading">
+            <span class="loading-dot"></span>
+            <span class="loading-dot"></span>
+            <span class="loading-dot"></span>
+        </div>
+        <div id="song-card">
             <div class="cover-and-links">
                 <img src="media/default-cover.jpg" alt="Album Cover" id="cover">
                 <div class="link-holder">
@@ -29,7 +34,8 @@
                 <h3 id="artist">Artist</h3>
             </div>
         </div>
-        <div id="error">
+        <p id="error"></p>
+        <div id="no-song-error">
             <h3>Sorry, it looks like we couldn't find a song.</h3>
             <p class="text-block">This could be for a bunch of different reasons, it could be because the song is too niche, the background audio is too noisy, or maybe your dumbass didn't even give a video that had a song.<br><br>You might have to actually check the comments for this one.</p>
         </div>

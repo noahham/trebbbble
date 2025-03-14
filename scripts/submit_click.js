@@ -3,29 +3,48 @@ let dict; // global var type shit
 document.getElementById("form").addEventListener("submit", async function(event) {
     event.preventDefault(); // Prevent page reload
 
-    const url = document.getElementById("url").value;
+    let url = document.getElementById("url").value;
     const songCard = document.getElementById("song-card");
     const errorMessage = document.getElementById("error");
+    const loading = document.getElementById("loading");
+    const noSongError = document.getElementById("no-song-error")
 
     songCard.classList.remove("show");
     errorMessage.classList.remove("show");
+    loading.classList.add("show");
+
 
     try {
         getData(url).then(() => {
             console.log(dict)
-            // Stores output data to dict variable
-            if (dict.success === true) { // If a song was found
-                document.getElementById("spotify").href = dict.spotify;
-                document.getElementById("yt-music").href = dict.youtube;
-                document.getElementById("apple-music").href = dict.apple;
-                document.getElementById("title").textContent = dict.title;
-                document.getElementById("artist").textContent = dict.artist;
 
-                songCard.classList.add("show");
-            } else { // If no song was found
-                errorMessage.textContent = `Error: ${dict.error}`;
-                errorMessage.classList.add("show");
-            }
+            // Fades out loading thing
+            loading.style.animation = "fadeOut 0.25s forwards"
+            setTimeout(function() {
+                loading.classList.remove("show");
+
+                // Stores output data to dict variable
+                if (dict.success === true) { // If a song was found
+                    document.getElementById("spotify").href = dict.spotify;
+                    document.getElementById("yt-music").href = dict.youtube;
+                    document.getElementById("apple-music").href = dict.apple;
+                    document.getElementById("title").textContent = dict.title;
+                    document.getElementById("artist").textContent = dict.artist;
+
+
+                    songCard.classList.add("show");
+                    songCard.style.animation = "fadeIn 0.5s forwards"
+                } else { // If no song was found
+                    if (dict.error === "NO_SONG_FOUND") {
+                        noSongError.classList.add("show");
+                        noSongError.style.animation = "fadeIn 0.5s forwards"
+                    } else {
+                        errorMessage.textContent = dict.error;
+                        errorMessage.classList.add("show");
+                        errorMessage.style.animation = "fadeIn 0.5s forwards"
+                    }
+                }
+            }, 250);
         });
     } catch (error) {
         errorMessage.textContent = `JS Error: ${error}`;

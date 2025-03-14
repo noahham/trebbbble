@@ -106,6 +106,56 @@ input {
     outline: none;
 }
 
+/* Output Keyframes */
+@keyframes fadeIn {
+    0% {
+        display: flex;
+        opacity: 0;
+    }
+    100% {opacity: 1;}
+}
+
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+/* Loading Icon */
+@keyframes loadingAnimation {
+    0% {transform: translateY(0px);}
+    50% {transform: translateY(-5px);}
+    100% {transform: translateY(5px);}
+    100% {transform: translateY(0px);}
+}
+
+#loading {
+    display: none;
+    width: auto;
+    margin-top: 2rem;
+}
+
+#loading.show {
+    animation: fadeIn 1s forwards;
+    display: flex;
+    gap: 10px;
+}
+
+.loading-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: black;
+
+    animation: loadingAnimation 1s infinite;
+}
+
+.loading-dot:nth-child(1) {animation-delay: 0s;}
+.loading-dot:nth-child(2) {animation-delay: 0.2s;}
+.loading-dot:nth-child(3) {animation-delay: 0.4s;}
+
 /* Song Card */
 #song-card {
     display: none;
@@ -124,6 +174,7 @@ input {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
 }
 
 /* TODO: FIGURE OUT HOW TO ANIMATE STUFF ON SHOW TOGGLE */
@@ -178,14 +229,24 @@ h3 {
 /* Error Messages */
 #error {
     margin-top: 2rem;
-    display:none;
+    display: none;
 }
 
 #error.show {
     display: flex;
     flex-direction: column;
 }
-/* TODO: Make the text left-aligned if the error is the no song one */
+
+#no-song-error {
+    margin-top: 2rem;
+    display: none;
+}
+
+#no-song-error.show {
+    display: flex;
+    flex-direction: column;
+}
+
 .text-block {
     line-height: 1.15rem;
     margin-top: 2rem;
