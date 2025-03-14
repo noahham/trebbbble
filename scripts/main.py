@@ -70,7 +70,7 @@ def download_video(url : str, error: list) -> None:
 
     except:
         error.append("Invalid URL. Please enter a valid TikTok, Instagram Reels, or YouTube Shorts URL.")
-        print(f"asd")
+        print("Invalid URL.")
 
 def recognize_song(error: list) -> tuple:
     """
@@ -113,7 +113,6 @@ def recognize_song(error: list) -> tuple:
     os.remove("output/temp.wav")
     if "metadata" in result and "music" in result["metadata"]:
         song_data = result["metadata"]["music"][0]
-        print(song_data)
         print("Song found.")
         return song_data["title"], song_data["artists"][0]["name"]
     error.append("NO_SONG_FOUND")
