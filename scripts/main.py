@@ -8,6 +8,7 @@ import urllib.parse
 import yt_dlp
 from PIL import Image
 from io import BytesIO
+import numpy as np
 
 def load_api_keys(file_path : str) -> dict:
     """
@@ -167,7 +168,31 @@ def get_album_cover(title: str, artist: str) -> bool:
         print(f"Error fetching album cover: {e}")
         return False
 
-# TODO: Function to get most vibrant color in the album cover
+def get_color() -> str:
+    """
+    Analyzes a JPG image and returns the most vibrant color.
+
+    Returns:
+         str: String representing the most vibrant color in HEX format, or None if the image does not exist.
+    """
+
+    if os.path.exists("../media/cover.jpg"):
+        image = Image.open("../media/cover.jpg").convert("RGB")
+        pixels = np.array(image)
+
+        # Flattens to (R, G, B)
+        pixels = pixels.reshape((-1, 3))
+
+        # Compute the sum of squared differences from grayscale and gets max
+        grayscale = np.mean(pixels, axis=1, keepdims=True)
+        vibrancy = np.sum((pixels - grayscale) ** 2, axis=1)
+        most_vibrant_idx = np.argmax(vibrancy)
+        most_vibrant_color = tuple(pixels[most_vibrant_idx])
+
+        # Converts to HEX
+        return "#{:02X}{:02X}{:02X}".format(*most_vibrant_color)
+    else:
+        return "NO_COLOR"
 
 def get_song_urls(title: str, artist: str) -> tuple:
     """
@@ -190,7 +215,7 @@ def get_song_urls(title: str, artist: str) -> tuple:
         f"https://music.apple.com/us/search?term={encoded_query}"
         )
 
-def generate_output(title: str, artist: str, cover: bool, error: list) -> dict:
+def generate_output(title: str, artist: str, cover: bool, color: str, error: list) -> dict:
     """
     Tries to make a dictionary with the song data.
 
@@ -198,6 +223,7 @@ def generate_output(title: str, artist: str, cover: bool, error: list) -> dict:
         title (str): The title of the song.
         artist (str): The artist of the song.
         cover (bool): Whether the album cover was found.
+        color (str): The most vibrant color in the album cover.
         error (list): List to store error messages.
 
     Returns:
@@ -211,6 +237,7 @@ def generate_output(title: str, artist: str, cover: bool, error: list) -> dict:
             "title": title,
             "artist": artist,
             "cover": cover,
+            "color": color,
             "spotify": urls[0],
             "youtube": urls[1],
             "apple": urls[2]
@@ -225,6 +252,7 @@ def main(url):
     error_msg = []
     t, a = None, None
     cover = False
+    color = "NO_COLOR"
 
     # Generating WAV file
     download_video(url, error_msg)
@@ -233,6 +261,6 @@ def main(url):
     if len(error_msg) == 0:
         t, a = recognize_song(error_msg)
         cover = get_album_cover(t, a)
-        # color = get_prominent_color()
+        color = get_color()
 
-    return generate_output(t, a, cover, error_msg)
+    return generate_output(t, a, cover, color, error_msg)
