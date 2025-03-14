@@ -35,6 +35,8 @@ h1 {animation: letterSpacingAnimation 0.9s forwards;}
     transition: all 1s;
 }
 
+label {text-align: center;}
+
 label:hover {cursor: text}
 
 .input-group {
@@ -174,10 +176,7 @@ input {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
 }
-
-/* TODO: FIGURE OUT HOW TO ANIMATE STUFF ON SHOW TOGGLE */
 
 #cover {
     width: 140px;

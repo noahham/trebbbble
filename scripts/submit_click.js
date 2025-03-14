@@ -6,11 +6,12 @@ document.getElementById("form").addEventListener("submit", async function(event)
     let url = document.getElementById("url").value;
     const songCard = document.getElementById("song-card");
     const errorMessage = document.getElementById("error");
-    const loading = document.getElementById("loading");
     const noSongError = document.getElementById("no-song-error")
+    const loading = document.getElementById("loading");
 
     songCard.classList.remove("show");
     errorMessage.classList.remove("show");
+    noSongError.classList.remove("show");
     loading.classList.add("show");
 
 
