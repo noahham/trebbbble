@@ -116,8 +116,12 @@ def recognize_song(error: list) -> tuple:
         print(song_data)
         print("Song found.")
         return song_data["title"], song_data["artists"][0]["name"]
-    error.append("Song wasn't recognized.")
+    error.append("NO_SONG_FOUND")
     return None, None
+
+# TODO: Function to get album cover
+
+# TODO: Function to get most vibrant color in the album cover
 
 def get_song_urls(title: str, artist: str) -> tuple:
     """
