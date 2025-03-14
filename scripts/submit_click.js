@@ -5,6 +5,7 @@ document.getElementById("form").addEventListener("submit", async function(event)
 
     let url = document.getElementById("url").value;
     const songCard = document.getElementById("song-card");
+    const icons = document.querySelectorAll(".icon");
     const errorMessage = document.getElementById("error");
     const noSongError = document.getElementById("no-song-error")
     const albumCover = document.getElementById("cover");
@@ -38,6 +39,14 @@ document.getElementById("form").addEventListener("submit", async function(event)
                         albumCover.src = "media/cover.jpg?v=" + new Date().getTime();
                         songCard.style.backgroundColor = dict.color;
                         songCard.style.color = dict.text_color;
+
+                        icons.forEach(icon => {
+                            if (dict.text_color === "#FFFFFF") {
+                                icon.style.filter = "invert(1)";
+                            } else {
+                                icon.style.filter = "none";
+                            }
+                        });
                     }
 
 
