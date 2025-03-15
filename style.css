@@ -70,11 +70,6 @@ input {
     transform: scale(1.05);
 }
 
-#submit.animate {
-    animation: submitClick 0.7s ease-in-out forwards;
-
-}
-
 @keyframes submitClick {
     0% {
         background-color: black;

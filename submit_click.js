@@ -85,7 +85,12 @@ async function getData(text) {
 function handleSubmit(event) {
     event.preventDefault(); // Prevent the form from submitting immediately
 
-    document.getElementById("submit").classList.add("animate"); // Trigger your animation
+    const submit_button = document.getElementById("submit");
+
+    submit_button.style.animation = "none";
+    setTimeout(() => {
+        submit_button.style.animation = "submitClick 0.7s ease-in-out forwards";
+    }, 10);
     document.getElementById("form").style.marginTop = "5rem";
 
     setTimeout(() => {
