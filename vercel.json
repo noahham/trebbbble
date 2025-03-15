@@ -1,10 +1,11 @@
 {
   "functions": {
-    "main.py": {
-      "runtime": "python3.12"
-    },
-    "server.py": {
+    "scripts/server.py": {
       "runtime": "python3.12"
     }
-  }
+  },
+  "routes": [
+    { "src": "/api/.*", "dest": "scripts/server.py" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
 }

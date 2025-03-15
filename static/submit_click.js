@@ -15,7 +15,7 @@ document.getElementById("form").addEventListener("submit", async function(event)
     errorMessage.classList.remove("show");
     noSongError.classList.remove("show");
     loading.classList.add("show");
-    albumCover.src = "media/default-cover.jpg"
+    albumCover.src = "../media/default-cover.jpg"
 
 
     try {

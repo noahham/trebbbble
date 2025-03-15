@@ -24,12 +24,5 @@ def process():
             'success': False
         }), 500
 
-@app.route('/output/<filename>')
-def serve_file(filename):
-    if filename == "cover.jpg":
-        return send_from_directory("../media", filename)
-    else:
-        return None
-
 if __name__ == '__main__':
     app.run()
