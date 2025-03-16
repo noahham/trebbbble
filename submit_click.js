@@ -36,7 +36,7 @@ document.getElementById("form").addEventListener("submit", async function(event)
                     document.getElementById("artist").textContent = dict.artist;
 
                     if (dict.cover === true) {
-                        albumCover.src = "media/cover.jpg?v=" + new Date().getTime();
+                        albumCover.src = "https://trebbbble-backend.onrender.com/media/cover.jpg?v=" + new Date().getTime();
                         songCard.style.backgroundColor = dict.color;
                         songCard.style.color = dict.text_color;
 
@@ -72,7 +72,7 @@ document.getElementById("form").addEventListener("submit", async function(event)
 });
 
 async function getData(text) {
-    const response = await fetch('http://127.0.0.1:5000/process', {
+    const response = await fetch('https://trebbbble-backend.onrender.com/process', {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
