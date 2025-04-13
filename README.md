@@ -10,7 +10,5 @@ A web application that allows users to extract the music from short-form video c
 4. If the song is found, its details are fetched from Spotify, YouTube Music, and Apple Music.
 5. The site displays the song's name, artist, and its various music streaming links.
 
-## Requirements
-
-1. `keys.txt` which includes both ACRCloud host address and API keys (formatted as seen in `requirements.txt`).
-2. All other dependencies found in `requirements.txt`.
+## Disclaimer
+This is literally only the frontend website, the actual logic (and the stuff you wanna copy if you want to do a similar thing) is in my `trebbbble-backend` repository.
