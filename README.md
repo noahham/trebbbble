@@ -11,4 +11,4 @@ A web application that allows users to extract the music from short-form video c
 5. The site displays the song's name, artist, and its various music streaming links.
 
 ## Disclaimer
-This is literally only the frontend website, the actual logic (and the stuff you wanna copy if you want to do a similar thing) is in my `trebbbble-backend` repository.
+This is literally only the frontend website, the actual logic (and the stuff that you probably wanna copy) is in my `trebbbble-backend` repository.
